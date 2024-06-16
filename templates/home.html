@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+<nav>
+    <a href="/menu/" id="menu">OUR MENU</a>
+    <a href="/menu/" id="menu1">MENU</a>
+    <span id="name">Sattvic Foods</span>
+    <div id="log"><button onclick="log()" id="logout">{{name}}</button></div>
+    <div id="log1"><button onclick="log()" id="logout1"><img src="{% static 'images/login.png' %}"</button></div>
+</nav>
+<div id="loga">
+<button onclick="rem()" id="rem"><i class="fa-solid fa-xmark"></i></button>
+<a href="#">About us</a>
+<a href="/">Log out</a>
+</div>
+<div id="msg1">
+    <p id="p1"></p>
+    <p id="p2"></p>
+</div>
+<img src="{% static 'images/img6.png' %}" id="img1">
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+body{width: 100vw;height: 100vh;overflow-y: hidden;}
+
+nav{width: 100vw; background-color: rgb(234, 233, 233); display: flex; height: 50px;
+    align-items: center;font-weight: 900;}
+
+*{margin: 0px; padding: 0px;}
+
+#menu{width: 30vw; color: rgb(4, 4, 103); font-size: 20px; text-align: center; }
+
+#name{width: 40vw; color: rgb(33, 63, 3); font-size: 45px; text-align: center;}
+#iname {width: 40vw;color: rgb(33, 63, 3);font-size: 45px;text-align: center;
+position: absolute; left: 30vw;font-family: 'Monaco' monospace;}
+
+#cart{width: 50px; height: 30px;}
+#login{font-size: 20px; color: white; background-color: brown; border-radius: 20px;
+    padding: 3px;position: absolute;right: 15vw;top: 10px;}

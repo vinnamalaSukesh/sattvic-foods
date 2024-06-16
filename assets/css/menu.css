@@ -1,0 +1,301 @@
+body {width: 99vw;height: 100vh;justify-content: center;align-items: center;overflow-x: hidden;}
+* {margin: 0px;padding: 0px;font-family: Garamond Georgia, 'Times New Roman', Times, serif;}
+*::-webkit-scrollbar {display: none;}
+
+header {display: flex;align-items: center;z-index: 5;padding: 10px 0px 20px 0px;width: 100vw;
+    height: 20px;position: fixed;background-color: rgb(249, 234, 237);}
+header input {position: absolute;left: 10vw;border-radius: 10px;width: 200px;
+    font-size: 15px;border: 1px solid black;text-align: center;height: 25px;top: 15px;}
+header p {position: absolute;left: 30vw;width: 40vw;font-size: 40px;top: 5px;text-align: center;min-width: 200px;}
+#po {position: absolute;right: 250px;background: transparent;
+    font-size: 30px;border: none;top: 5px;width: 40px;height: 40px;}
+#log{background-color: rgb(2, 56, 2);color: white;font-size: 20px;position: absolute;right: 50px;
+top: 10px;text-decoration: none;border-radius: 5px;padding: 3px;}
+#log1{background: transparent;color: rgb(2, 2, 90);position: absolute;right: 80px;width: 30px;height: 30px;
+top: 10px;border:none;display: none;}
+#log1 img{width: 30px;height: 30px;}
+#headcart{position: absolute;right: 250px;background: transparent;border: none;top: 10px;display: none;}
+#headcart img{width: 30px;height: 30px;}
+#po a img {background: transparent;width: 40px;height: 40px;top: 5px;}
+
+#but {display: flex;flex-direction: column;width: 200px;height: 80vh;
+    justify-content: space-around;position: fixed;left: 100px;top: 100px;}
+
+#Appetizers {position: absolute;left: 400px;top: 100px;width: 450px;display: flex;flex-direction: column;}
+#Soups_salads {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Rice_items {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Breads_rotis {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Special_curries {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Side_dishes {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Deserts {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#Drinks {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#All {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#allitems {position: absolute;left: 400px;top: 100px;width: 450px;display: none;flex-direction: column;}
+#itemslist {display: none;}
+
+img {width: 100px;height: 100px;border-radius: 5px;}
+#items {display: flex;box-shadow: 0px 0px 25px black;border-radius: 5px;margin: 10px;align-items: center;
+width: 450px;}
+#items div {position: relative;left: 2vw;flex-direction: column;width: 250px;justify-content: space-around;
+    gap: 10px;font-size: 20px;text-align: left;display: flex;}
+#items button {height: 30px;position: absolute;right: 10px;font-size: 20px;padding: 3px;border-radius: 5px;
+    background-color: rgb(250, 232, 235);color: red;border: 1px solid red;}
+
+#Appetizersb {background-color: rgb(250, 244, 245);color: red;border: 1px solid red;
+    font-size: 20px;padding: 3px;border-radius: 5px;box-shadow: 0px 0px 5px red;}
+#Soups_saladsb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+#Rice_itemsb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+#Breads_rotisb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+#Special_curriesb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+#Side_dishesb {background-color: white;box-shadow: 0px 0px 5px white;border: 1px solid white;
+    font-size: 20px;padding: 3px;border-radius: 5px;color: black;}
+#Desertsb {background-color: white;box-shadow: 0px 0px 5px white;border: 1px solid white;
+    font-size: 20px;padding: 3px;border-radius: 5px;color: black;}
+#Drinksb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+#Allb {background-color: white;color: black;box-shadow: 0px 0px 5px white;
+    border: 1px solid white;font-size: 20px;padding: 3px;border-radius: 5px;}
+.red {color: red;}
+.p {display: flex;width: 15vw;}
+
+#divcart {position: fixed;right: 4vw;width: 350px;display: flex;justify-content: center;}
+#divcart{height: auto;top: 110px;right: 50px;box-shadow: 0px 0px 15px blue;padding-top: 5px;
+border-radius: 5px;flex-direction: column;align-items: center;background-color: white;gap: 10px;}
+#title{font-size: 25px;border-bottom: 1px solid blue;}
+#cartp{display: flex;width: 320px;}
+#name{width: 190px;font-size: 18px;}
+#price{width: 50px;font-size: 18px;color: red;}
+#min{width: 17px;text-align: center;}
+#min i{text-align: center;font-size: 18px;}
+#no_of{width: 30px;text-align: center;font-size: 18px;}
+#max{width: 25px;text-align: center;font-size: 18px;}
+#cart{display: flex;flex-direction: column;gap: 10px;}
+
+#namet {width: 190px;float: left;font-size: 20px;}
+#pricet {font-size: 20px;color: red;}
+#star {color: #d9b903;}
+
+#loga {width: 200px;height: 92vh;font-size: 20px;text-decoration: none;display: none;
+    position: fixed;top: 8vh;right: 0px;z-index: 3;background-color: rgb(240, 237, 237);
+    align-items: center;padding: 3px 10px;text-align: center;flex-direction: column;gap: 20px;}
+#loga button {font-size: 25px;color: black;position: relative;right: 10px;background: none;border: none;
+top: 10px;color: red;margin-left: 150px;}
+#loga a {text-decoration: none;padding: 20px 0px 0px 0px;color: rgb(1, 1, 80);font-size: 20px;
+text-shadow: 2px 2px white;top: 40px;font-weight: 600;}
+
+#sel{text-align: center;position: absolute;top: 80px;position: fixed;z-index: 5;display: none;}
+select{width: 250px;border: 1px solid red;font-size: 20px;box-shadow: 0px 0px 5px red;
+background-color: rgb(255, 247, 249);position: fixed;}
+option{text-align: center;border: 1px solid red;font-size: 15px;}
+
+@media screen and (max-width:1300px) {
+    #divcart{right: 0px;display: none;}
+    #log{display: none;}
+    #log1{display: inline;}
+    #po{right: 150px;}
+    #headcart{display: inline;}
+    header input{left: 100px;}
+    #divcart{top: 51px;}
+}
+@media screen and (max-width:1000px){
+    header input{left: 80px;}
+    #log1{right: 50px;}
+    #headcart{right: 200px;}
+    #po{right: 120px;}
+}
+
+@media screen and (max-width:900px) {
+    #but{left: 30px;}
+    #Appetizers{left: 300px;}
+    #Soups_salads{left: 300px;}
+    #Rice_items{left: 300px;}
+    #Breads_rotis{left: 300px;}
+    #Special_curries{left: 300px;}
+    #Side_dishes{left: 300px;}
+    #Deserts{left: 300px;}
+    #Drinks{left: 300px;}
+    #All{left: 300px;}
+    #allitems{left: 300px;}
+    #divcart{top: 70px;z-index: 10;}
+    header{height: 50px;}
+}
+
+@media screen and (max-width:800px) {
+    #but{display: none;}
+    #sel{display: flex;left: 270px;top: 120px;}
+    #Appetizers {left: 160px;top: 120px;}
+    #Soups_salads {left: 160px;top: 120px;}
+    #Rice_items {left: 160px;top: 120px;}
+    #Breads_rotis {left: 160px;top: 120px;}
+    #Special_curries {left: 160px;top: 120px;}
+    #Side_dishes {left: 160px;top: 120px;}
+    #Deserts {left: 160px;top: 120px;}
+    #Drinks {left: 160px;top: 120px;}
+    #All {left: 160px;top: 120px;}
+    #allitems{left: 160px;top: 120px;}
+    header{height: 80px;padding: 0px;}
+    #sel{top: 80px;}
+    header input{left: 10px;top: 50px;}
+    #log1{right: 10px;}
+    #po{top: 40px;right: 10px;}
+    #headcart{top: 45px;right: 80px;}
+    header p{font-size: 30px;left: 10px;text-align: left;}
+}
+
+@media screen and (max-width:650px) {
+    #Appetizers {left: 100px;top: 120px;}
+    #Soups_salads {left: 100px;top: 120px;}
+    #Rice_items {left: 100px;top: 120px;}
+    #Breads_rotis {left: 100px;top: 120px;}
+    #Special_curries {left: 100px;top: 120px;}
+    #Side_dishes {left: 100px;top: 120px;}
+    #Deserts {left: 100px;top: 120px;}
+    #Drinks {left: 100px;top: 120px;}
+    #All {left: 100px;top: 120px;}
+    #sel{left: 200px;}
+}
+@media screen and (max-width:600px) {
+    #Appetizers {left: 70px;top: 120px;}
+    #Soups_salads {left: 70px;top: 120px;}
+    #Rice_items {left: 70px;top: 120px;}
+    #Breads_rotis {left: 70px;top: 120px;}
+    #Special_curries {left: 70px;top: 120px;}
+    #Side_dishes {left: 70px;top: 120px;}
+    #Deserts {left: 70px;top: 120px;}
+    #Drinks {left: 70px;top: 120px;}
+    #All {left: 70px;top: 120px;}
+    #sel {left: 190px;}
+}
+
+@media screen and (max-width:550px) {
+    #Appetizers {left: 70px;top: 120px;width: 400px;}
+        #Soups_salads {left: 70px;top: 120px;width: 400px;}
+        #Rice_items {left: 70px;top: 120px;width: 400px;}
+        #Breads_rotis {left: 70px;top: 120px;width: 400px;}
+        #Special_curries {left: 70px;top: 120px;width: 400px;}
+        #Side_dishes {left: 70px;top: 120px;width: 400px;}
+        #Deserts {left: 70px;top: 120px;width: 400px;}
+        #Drinks {left: 70px;top: 120px;width: 400px;}
+        #All {left: 70px;top: 120px;width: 400px;}
+        #allitems{left: 70px;top: 120px;width: 400px;}
+    #items{width: 400px;}
+    #items *{font-size: 18px;}
+    #sel{left: 150px;}
+    header input{font-size: 12px;}
+}
+@media screen and (max-width:500px) {
+    #Appetizers {left: 70px;top: 120px;width: 350px;}
+        #Soups_salads {left: 70px;top: 120px;width: 350px;}
+        #Rice_items {left: 70px;top: 120px;width: 350px;}
+        #Breads_rotis {left: 70px;top: 120px;width: 350px;}
+        #Special_curries {left: 70px;top: 120px;width: 350px;}
+        #Side_dishes {left: 70px;top: 120px;width: 350px;}
+        #Deserts {left: 70px;top: 120px;width: 350px;}
+        #Drinks {left: 70px;top: 120px;width: 350px;}
+        #All {left: 70px;top: 120px;width: 350px;}
+        #allitems {left: 70px;top: 120px;width: 350px;}
+        #items{width: 350px;}
+        #items *{font-size: 15px;}
+        #items button{font-size: 15px;}
+        #items img{width: 80px;height: 80px;}
+}
+@media screen and (max-width:450px) {
+    #sel{left: 100px;}
+    #Appetizers {left: 50px;top: 120px;width: 350px;}
+        #Soups_salads {left: 50px;top: 120px;width: 350px;}
+        #Rice_items {left: 50px;top: 120px;width: 350px;}
+        #Breads_rotis {left: 50px;top: 120px;width: 350px;}
+        #Special_curries {left: 50px;top: 120px;width: 350px;}
+        #Side_dishes {left: 50px;top: 120px;width: 350px;}
+        #Deserts {left: 50px;top: 120px;width: 350px;}
+        #Drinks {left: 50px;top: 120px;width: 350px;}
+        #All {left: 50px;top: 120px;width: 350px;}
+        #allitems {left: 50px;top: 120px;width: 350px;}
+        #title{font-size: 20px;}
+        #divcart{width: 250px;padding: 10px;}
+        #cartp{width: 250px;padding: 10px;}
+        #cartp *{font-size: 15px;}
+        #min{width: 15px;font-size: 15px;}
+        #max{width: 15px;font-size: 15px;}
+}
+@media screen and (max-width:400px) {
+    #sel {left: 100px;}
+    #Appetizers {left: 50px;top: 120px;width: 300px;}
+    #Soups_salads {left: 50px;top: 120px;width: 300px;}
+    #Rice_items {left: 50px;top: 120px;width: 300px;}
+    #Breads_rotis {left: 50px;top: 120px;width: 300px;}
+    #Special_curries {left: 50px;top: 120px;width: 300px;}
+    #Side_dishes {left: 50px;top: 120px;width: 300px;}
+    #Deserts {left: 50px;top: 120px;width: 300px;}
+    #Drinks {left: 50px;top: 120px;width: 300px;}
+    #All {left: 50px;top: 120px;width: 300px;}
+    #allitems {left: 50px;top: 120px;width: 300px;}
+    #items{width: 300px;}
+}
+@media screen and (max-width:350px) {
+    #sel {left: 100px;}
+    #Appetizers { left: 50px;top: 120px;width: 250px;}
+    #Soups_salads {left: 50px;top: 120px;width: 250px;}
+    #Rice_items {left: 50px;top: 120px;width: 250px;}
+    #Breads_rotis {left: 50px;top: 120px;width: 250px;}
+    #Special_curries {left: 50px;top: 120px;width: 250px;}
+    #Side_dishes {left: 50px;top: 120px;width: 250px;}
+    #Deserts {left: 50px;top: 120px;width: 250px;}
+    #Drinks {left: 50px;top: 120px;width: 250px;}
+    #All { left: 50px;top: 120px;width: 250px;}
+    #allitems {left: 50px;top: 120px; width: 250px;}
+    #items{width: 250px;}
+    #items *{font-size: 13px;}
+    #items button{right: 1px;font-size: 12px;padding: 1px;height: auto;}
+    #items img{width: 70px;height: 70px;}
+    #search{width: 150px;}
+}
+@media screen and (max-width:350px) {
+    #sel {left: 75px;width: 200px;}
+    select{width: 200px;}
+    #Appetizers {left: 50px;top: 120px;width: 250px;}
+    #Soups_salads {left: 50px;top: 120px;width: 250px;}
+    #Rice_items {left: 50px;top: 120px;width: 250px;}
+    #Breads_rotis {left: 50px;top: 120px;width: 250px;}
+    #Special_curries {left: 50px;top: 120px;width: 250px;}
+    #Side_dishes {left: 50px;top: 120px;width: 250px;}
+    #Deserts {left: 50px;top: 120px;width: 250px;}
+    #Drinks {left: 50px;top: 120px;width: 250px;}
+    #All {left: 50px;top: 120px;width: 250px;}
+    #allitems {left: 50px;top: 120px;width: 250px;}
+    #items {width: 250px;}
+}
+@media screen and (max-width:320px) {
+    #sel {left: 75px;width: 200px;}
+    select {width: 200px;}
+    #Appetizers {left: 50px;top: 120px;width: 250px;}
+    #Soups_salads {left: 50px;top: 120px;width: 250px;}
+    #Rice_items {left: 50px;top: 120px;width: 250px;}
+    #Breads_rotis {left: 50px;top: 120px;width: 250px;}
+    #Special_curries {left: 50px;top: 120px;width: 250px;}
+    #Side_dishes {left: 50px;top: 120px;width: 250px;}
+    #Deserts {left: 50px;top: 120px;width: 250px;}
+    #Drinks {left: 50px;top: 120px;width: 250px;}
+    #All {left: 50px;top: 120px;width: 250px;}
+    #allitems {left: 50px;top: 120px;width: 250px;}
+    #items {width: 250px;}
+}
+@media screen and (max-width:320px) {
+    #sel {left: 60px;width: 200px;}
+    select {width: 200px;}
+    #Appetizers {left: 20px;top: 120px;width: 250px;}
+    #Soups_salads {left: 20px;top: 120px;width: 250px;}
+    #Rice_items {left: 20px;top: 120px;width: 250px;}
+    #Breads_rotis {left: 20px;top: 120px;width: 250px;}
+    #Special_curries {left: 20px;top: 120px;width: 250px;}
+    #Side_dishes {left: 20px;top: 120px;width: 250px;}
+    #Deserts {left: 20px;top: 120px;width: 250px;}
+    #Drinks {left: 20px;top: 120px;width: 250px;}
+    #All {left: 20px;top: 120px;width: 250px;}
+    #allitems {left: 20px;top: 120px;width: 250px;}
+    #items {width: 250px;}
+}

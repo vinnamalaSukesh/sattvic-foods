@@ -1,0 +1,54 @@
+body{width: 100vw; height: 100vh;
+overflow: hidden; display: flex;align-items: center;justify-content: center;}
+
+*{margin: 0px; padding: 0px;}
+
+form{display: flex; flex-direction: column;row-gap: 10px;padding: 20px;position: absolute;
+    align-items: center;border-radius: 10px;justify-content: center; top: 100px;height: 300px;
+box-shadow: 0px 0px 25px black;}
+
+form input{padding: 8px; border-radius: 5px;font-size: 20px; border:1px solid black;
+     width: 320px;}
+form button{padding: 10px; border-radius: 5px;font-size: 20px; border:none;color: white;
+    font-weight: bold;background-color: rgb(1, 56, 1);}
+form p{font-size: 40px; color: rgb(4, 4, 115);}
+
+#title{font-size: 50px; position: absolute; top: 29px; font: 900; font-family: Tahoma, sans-serif;
+color: rgb(4, 4, 82); width: 32vw; text-align: center;}
+
+#list{font-size: 1px;visibility: hidden;}
+
+i{font-size: 25px; background:transparent; color: red;}
+
+#pass{position: absolute; right: 55px; top: 240px; z-index: 5;visibility: hidden;}
+#passi{position: absolute;right: 10px;top: 230px;border: none;background: transparent;}
+#passi i{ font-size: 25px; background: transparent;border: none; color: black; z-index: 5;}
+
+#emaili{position: absolute; top: 135px; right: 25px; z-index: 5; visibility: hidden;}
+
+#text {width: 60vw;position: absolute;right: 20px;display: flex;align-items: center;justify-content: center;
+    flex-direction: column;gap: 20px;background-color: rgb(232, 231, 231);height: 100vh;padding: 0px 0px 0px 20px;}
+#text ul {max-width: 60vw;align-items: center;font-size: 20px;}
+li {list-style-type: none;}
+
+@media screen and (max-width:450px) {
+    form{width: 300px;gap: 14px;}
+    form p{font-size: 35px;}
+    form input{width: 280px;}
+    #pass{font-size: 20px;top: 245px;right: 45px;}
+    #passi i{font-size: 20px;top: 245px;}
+    #emaili{font-size: 20px;}
+    #passi{top: 235px;}
+    #submit{padding: 3px;}
+}
+
+@media screen and (max-width:350px) {
+    form {width: 250px;height: 250px;}
+    form p{font-size: 30px;}
+    form input {width: 220px;padding: 8px;font-size: 13px;}
+    form{gap: 10px;height: 300px;}
+    #pass {font-size: 20px;top: 220px;right: 55px;}
+    #passi i {font-size: 20px;top: 255px;}
+    #emaili {font-size: 20px;top: 135px;right: 30px;}
+    #passi {top: 210px;right: 20px;}
+}

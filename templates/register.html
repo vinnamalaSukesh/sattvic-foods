@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registration page</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <form action="/register/" method="post" onsubmit="return validate(event)">
+        {% csrf_token %}
+        <p>User registration</p>
+        <input type="text" size="25" id="name" placeholder="name:" name="name" required>
+        <input type="email" size="25" id="email" placeholder="email:" name="email" required>
+        <i class="fa-solid fa-bug" id="emaili" title="email is already registered"></i>
+        <input type="text" placeholder="Mobile No:" maxlength="10" required id="number">
+        <input type="password" size="25" id="password" placeholder="password:" name="password" required>
+        <i class="fa-solid fa-bug" id="pass" title="password should atleast 8 characters"></i>
+        <button onclick="see(event)" id="passi"><i class="fa-solid fa-eye-slash"></i></button>
+        <button type="submit" id="submit">submit</button>
+    </form>
+    <p id="list">{{emails}}</p>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+</body>
+</html>

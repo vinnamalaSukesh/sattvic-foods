@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Index page</title>
+    <link rel="stylesheet" href="{% static 'css/view.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    <nav>
+        <p id="name">Sattvic Foods</p>
+        <a href="/login/" id="but">Login/Signup</a>
+        <a href="/login/" id="but1"><img src="{% static 'images/login.png' %}"></a>
+    </nav>
+    <p id="m1">WELCOME</p>
+    <img src="{% static 'images/Designer.jpeg' %}" id="back">
+    <p id="m2">Restaurant website </p><p id="m3">using python full stack</p>
+    <div id="info">
+        <p>Designer: sukesh reddy</p>
+        <a href="https://drive.google.com/file/d/162ntVg6rqpw2klKI0bNEUxbfSFw3CFXE/view?usp=drivesdk">My resume</a>
+    </div>
+</body>
+</html>

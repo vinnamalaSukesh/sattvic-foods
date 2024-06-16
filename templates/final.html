@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Order placed</title>
+    <link rel="stylesheet" href="{% static 'css/final.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <p id="name">Sattvic Foods</p>
+    <button id="log" onclick="log()">{{name}}</button>
+    <button onclick="log()" id="log1"><img src="{% static 'images/login.png' %}"></button>
+    <div>
+    <i class="fa fa-check" aria-hidden="true"></i>
+    <p>Order placed</p>
+    </div>
+    <div id="logout">
+    <button onclick="rem()"><i class="fa-solid fa-xmark"></i></button>
+    <a href="#">About us</a>
+    <a href="/">Log out</a>
+    </div>
+    <script type="text/javascript" src="{% static 'js/final.js' %}"></script>
+</body>
+</html>

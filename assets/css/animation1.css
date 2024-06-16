@@ -1,0 +1,48 @@
+body{display: flex;align-items: center;justify-content: center;overflow: hidden;
+background: linear-gradient(pink,rgb(118, 211, 241));width: 100vw;height: 100vh;}
+
+#one{width: auto;height: auto;position: absolute;border-radius: 50%;border: 3px solid black;
+display: flex;align-items: center;justify-content: center;}
+#two {width: 0px;height: 0px;position: absolute;border-radius: 50%;border: 3px solid black;
+top: 0px;left: 0px;display: flex;align-items: center;justify-content: center;}
+#three {width: 0px;height: 0px;position: absolute;border-radius: 50%;
+    border: 3px solid black;top: 0px;right: 0px;display: flex;align-items: center;justify-content: center;}
+#four {width: 0px;height: 0px;position: absolute;border-radius: 50%;
+    border: 3px solid black;bottom: 0px;left: 0px;display: flex;align-items: center;justify-content: center;}
+#five {width: 0px;height: 0px;position: absolute;display: flex;align-items: center;justify-content: center;
+    border-radius: 50%;border: 3px solid black;bottom: 0px;right: 0px;}
+
+#a1{position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc 1s infinite linear;}
+#a2 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(5, 5, 171);animation: inc 1.5s infinite linear;}
+#a3 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(3, 86, 3);animation: inc 2s infinite linear;}
+#a4{position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc 2.5s infinite linear;}
+
+#b1 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 1s infinite linear;}
+#b2 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(5, 5, 171);animation: inc1 1.5s infinite linear;}
+#b3 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(3, 86, 3);animation: inc1 2s infinite linear;}
+#b4 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 2.5s infinite linear;}
+.inc{border-radius: 50%;}
+
+#c1 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 1s infinite linear;}
+#c2 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(5, 5, 171);animation: inc1 1.5s infinite linear;}
+#c3 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(3, 86, 3);animation: inc1 2s infinite linear;}
+#c4 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 2.5s infinite linear;}
+
+#d1 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 1s infinite linear;}
+#d2 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(5, 5, 171);animation: inc1 1.5s infinite linear;}
+#d3 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(3, 86, 3);animation: inc1 2s infinite linear;}
+#d4 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 2.5s infinite linear;}
+
+#e1 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 1s infinite linear;}
+#e2 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(5, 5, 171);animation: inc1 1.5s infinite linear;}
+#e3 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(3, 86, 3);animation: inc1 2s infinite linear;}
+#e4 {position: absolute;width: 0px;height: 0px;border: 1px solid rgb(223, 4, 4);animation: inc1 2.5s infinite linear;}
+@keyframes inc {
+    0% {width: 0px;height: 0px;}
+    100% {width: 1000px;height: 700px;}
+}
+@keyframes inc1 {
+    0% {width: 0px;height: 0px;}
+    100% {width: 1200px;height: 900px;}
+}
+#last{font-size: 80px;color: rgb(5, 5, 128);position: absolute;}

@@ -1,0 +1,84 @@
+
+*{padding: 0px; margin: 0px;}
+nav span{position: absolute;width: 50vw;font-size: 40px;text-align: center;left: 25vw;}
+nav{background-color: rgb(224, 223, 223);height: 8vh;display: flex;align-items: center;width: 100vw;}
+#log{position: absolute;width: 25vw;text-align: center;font-weight: 500;right: 0px;
+background-color: transparent;color: white;padding: 3px;font-size: 20px;height: 30px;border-radius: 10px;}
+#menu{position: absolute;width: 25vw;font-size: 20px;color: rgb(3, 3, 100);text-decoration: none;
+text-align: right;}
+#menu1{position: absolute;width: 25vw;font-size: 20px;color: reb(3,3,100);text-decoration: none;
+text-align: right;display: none;}
+#logout{font-size: 20px;background-color: rgb(1, 71, 1);color: white;border-radius: 5px;}
+#loga{width: 200px;height: 92vh;font-size: 20px;text-decoration: none;display: none;
+position: absolute;top: 8vh;right: 0px;z-index: 3;background-color: rgb(224,223,223);
+align-items: center;padding: 3px 10px;text-align: center;flex-direction: column;gap: 20px;}
+#loga i{font-size: 25px;color: black;position: absolute;right: 10px;}
+#loga a{text-decoration: none;padding: 20px 0px 0px 0px;color: red;font-size: 20px;text-shadow: 2px 2px white;}
+
+#img2{position: absolute;bottom: 0px;left: 0px;width: 25vw;height: 92vh;z-index: 3;}
+
+#log1{position: absolute;width: 25vw;font-size: 25px;color: black;background: transparent;display: none;
+height: 25px;right: 20px;}
+#logout1{position: absolute;font-size: 25px;right: 0px;color: black;background: transparent;border: none;
+height: 25px;}
+#logout1 img{width: 35px;height: 30px;}
+body{overflow: hidden;background-color: rgb(25, 25, 25);}
+
+#msg1 {position: absolute;font-size: 80px;color: rgb(190, 224, 236);width: 70vw;z-index: 5;left: 10vw;height: 92vh;display: flex;
+    flex-direction: column;justify-content: center;align-items: center;gap: 80px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#img1 {width: 30vw;height: 92vh;position: absolute;bottom: 0px;right: 0px;}
+#p1 {animation: change 3s ease-in-out infinite;}
+#p2 {animation: change 3s ease-in-out infinite;}
+#back{position: absolute;top: 0px;left: 0px;width: 100vw;height: 100vh;animation: rotate;}
+@keyframes change {
+    0% {opacity: 0;}
+    10% {opacity: 1;}
+    90% {opacity: 1;}
+    100% {opacity: 0;}
+}
+@media screen and (max-width:650px) {
+    #name{font-size: 35px;}
+    #log button{font-size: 17px;}
+    #menu{font-size: 17px;}
+    #msg1{font-size: 60px;width: 100vw;position: absolute;z-index: 2;left: 0px;color: rgb(190, 224, 236);}
+}
+@media screen and (max-width:550px) {
+    #name {font-size: 32px;}
+    #log button {font-size: 15px;}
+    #menu {font-size: 15px;}
+    #img1{width: 35vw;}
+    #msg1 {font-size: 50px;width: 100vw;position: absolute;z-index: 2;left: 0px;
+color: rgb(190, 224, 236);gap: 60px;}
+}
+@media screen and (max-width:500px) {
+    #name {font-size: 32px;}
+    #log{display: none;}
+    #log1{display: inline;}
+    #menu {display: none;}
+    #menu1{display: inline;text-align: right;font-size: 17px;}
+    #img1{width: 40vw;}
+    #msg1 {font-size: 50px;width: 100vw;position: absolute;z-index: 2;left: 0px;
+        color: rgb(190, 224, 236);gap: 50px;}
+}
+@media screen and (max-width:450px) {
+    #name {font-size: 30px;}
+    #log {display: none;}
+    #log1 {display: inline;}
+    #menu {display: none;}
+    #menu1{display: inline;text-align: center;font-size: 15px;}
+    #img1{width: 45vw;}
+    #msg1 {font-size: 45px;width: 100vw;position: absolute;z-index: 2;left: 0px;
+        color: rgb(190, 224, 236);gap: 50px;}
+}
+@media screen and (max-width:400px) {
+    #name {font-size: 25px;}
+    #log{display: none;}
+    #log1 {display: inline;}
+    #menu {display: none;}
+    #menu1{display: inline;text-align: center;font-size: 12px;}
+    #img1{width: 50vw;}
+    #msg1 {font-size: 30px;width: 100vw;position: absolute;z-index: 2;left: 0px;
+        color: rgb(190, 224, 236);gap: 30px;}
+}

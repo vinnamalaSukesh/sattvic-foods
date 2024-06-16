@@ -1,0 +1,195 @@
+{% load static %}
+{% static "images/" as base %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Our Menu</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <input type="search" size="20" id="search" placeholder="search item" onkeyup="search()">
+        <p>Sattvic Foods</p>
+        <div>
+        <button onclick="log()" id="log">{{name}}</button>
+        <button onclick="log()" id="log1"><img src="{% static 'images/login.png' %}"></img></button>
+        <button onclick="cartdis()" id="headcart"><img src="{% static 'images/cart.png' %}"></button>
+        <button onclick="send()" id="po"><a href='/final/'><img src="{% static 'images/deliver.png' %}"></a></button>
+        </div>
+    </header>
+
+    <div id="but">
+        <button onclick="change('Appetizers')" id="Appetizersb">Appetizers</button>
+        <button onclick="change('Soups_salads')" id="Soups_saladsb">Soups and salads</button>
+        <button onclick="change('Rice_items')" id="Rice_itemsb">Rice items</button>
+        <button onclick="change('Breads_rotis')" id="Breads_rotisb">Breads and rotis</button>
+        <button onclick="change('Special_curries')" id="Special_curriesb">Special curries</button>
+        <button onclick="change('Side_dishes')" id="Side_dishesb">Side dishes</button>
+        <button onclick="change('Deserts')" id="Desertsb">Deserts</button>
+        <button onclick="change('Drinks')" id="Drinksb">Drinks</button>
+        <button onclick="change('All')" id="Allb">All items</button>
+    </div>
+    <div id="sel">
+    <select onchange="change(this.options[this.selectedIndex].value)">
+        <option value="Appetizers">Appetizers</option>
+        <option  value="Soups_salads">Soups and salads</option>
+        <option value="Rice_items">Rice items</option>
+        <option value="Breads_rotis">Breads and rotis</option>
+        <option value="Special_curries">Special curries</option>
+        <option value="Side_dishes">Side dishes</option>
+        <option value="Deserts">Deserts</option>
+        <option value="Drinks">Drinks</option>
+        <option value="All">All items</option>
+    </select>
+    </div>
+    <div id="Appetizers" class="c">
+        {% for i in appetizers %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Soups_salads" class="c">
+        {% for i in soups_salads %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Rice_items" class="c">
+        {% for i in rice_items %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Breads_rotis" class="c">
+        {% for i in breads_rotis %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Special_curries" class="c">
+        {% for i in special_curries %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Side_dishes" class="c">
+        {% for i in side_dishes %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Deserts" class="c">
+        {% for i in deserts %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="Drinks" class="c">
+        {% for i in drinks %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="All" class="c">
+        {% for i in all %}
+        <div id="items" class="items">
+            <img id="img" src="{{base}}{{i.2}}" alt="{{base}}{{i.2}}">
+            <div>
+                <p>{{i.0}}</p>
+                <p class="p"><span>Price&nbsp;:</span><span class="red">&nbsp;{{i.1}}₹</span></p>
+                <p class="p"><span>Rating:&nbsp;&nbsp;</span><span class="red">4.5&nbsp;&nbsp;</span><i
+                        class="fa-solid fa-star" id="star"></i></p>
+            </div>
+            <button onclick="cart('{{i.0}}','{{i.1}}')">Add to cart</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="allitems" class="c">
+
+    </div>
+    <p id="itemslist">{{all}}</p>
+    <div id="divcart">
+    <p id="title">Cart items</p>
+    <div id="cart"></div>
+    </div>
+
+    <div id="loga">
+        <button onclick="rem()" id="rem"><i class="fa-solid fa-xmark"></i></button>
+        <a href="#">About us</a>
+        <a href="/">Log out</a>
+    </div>
+    <script type="text/javascript" src="{% static 'js/menu.js' %}"></script>
+</body>
+
+</html>
