@@ -117,6 +117,7 @@ def menu(request):
 
 def final(request):
     data = request.GET.get('items')
+    print(data)
     if(data != None):
         Or = Orders_placed()
         Or.name = logined

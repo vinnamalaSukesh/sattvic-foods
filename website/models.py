@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 class Customer(models.Model):
     name = models.CharField(max_length=30)
     email = models.CharField(max_length=30)
@@ -41,4 +41,9 @@ class Drinks(models.Model):
 class Orders_placed(models.Model):
     name = models.CharField(max_length=25)
     items = models.TextField()
-    time = models.CharField(max_length=25)
+    time = models.DateTimeField()
+    def save(self, *args, **kwargs):
+        if not self.time:
+            now = datetime.now()
+            self.time = now.replace(microsecond=0)
+        super().save(*args, **kwargs)

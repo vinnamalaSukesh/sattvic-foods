@@ -111,12 +111,11 @@ function send()
 { let list_of_items = ''
   for(let i of cart_items)
 { list_of_items += ';' + i.toString()}
-
   var data = {
     items: list_of_items.slice(1)
   };
   $.ajax({
-    url: 'http://127.0.0.1:8000/final/',
+    url: 'http://127.0.0.1:5000/final/',
     type: 'GET',
     data: data,
     success: function(response) {
