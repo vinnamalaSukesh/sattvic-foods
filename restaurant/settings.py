@@ -1,16 +1,10 @@
 from pathlib import Path
+import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-s06ix+*x%ppy#-g+5--wvsdzof4s!wdvkai-3f7#1%7iti4lta'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -67,6 +61,17 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+'''DATABASES = {
+    'default':{
+        'ENGINE':'mssql',                    # Must be "mssql"
+        'NAME':'restaurant',                       # DB name "test"
+        'HOST':'localhost', # <server>\<instance>
+        'PORT':'',                           # Keep it blank
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    }
+}'''
 
 
 # Password validation

@@ -3,8 +3,9 @@ from datetime import datetime
 class Customer(models.Model):
     name = models.CharField(max_length=30)
     email = models.CharField(max_length=30)
+    phoneNo = models.CharField(max_length=13,default='')
     password = models.CharField(max_length=30)
-
+    address = models.CharField(max_length=200,default='')
 class Appetizers(models.Model):
     item = models.CharField(max_length=30,null=True)
     price= models.IntegerField(null=True)
@@ -42,6 +43,8 @@ class Orders_placed(models.Model):
     name = models.CharField(max_length=25)
     items = models.TextField()
     time = models.DateTimeField()
+    contactNo = models.CharField(max_length=13,default='')
+    address = models.CharField(max_length=200,default='')
     def save(self, *args, **kwargs):
         if not self.time:
             now = datetime.now()
