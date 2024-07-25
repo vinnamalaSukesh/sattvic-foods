@@ -49,8 +49,8 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'restaurant.wsgi.application'
-ASGI_APPLICATION = 'restaurant.asgi.application'
+WSGI_APPLICATION = 'restaurant.wsgi.application'
+'''ASGI_APPLICATION = 'restaurant.asgi.application'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -58,7 +58,7 @@ CHANNEL_LAYERS = {
             "hosts": [("localhost", 6379)],
         },
     },
-}
+}'''
 
 DATABASES = {
     'default': {
