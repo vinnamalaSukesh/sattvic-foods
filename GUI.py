@@ -65,9 +65,9 @@ tab2.setStyleSheet("color:white;background-color:black;font-size:16px;font-weigh
 tab1.setFixedWidth(663)
 tab2.setFixedWidth(663)
 
-tab3 = QPushButton('Completed',clicked = lambda checked, tab='completed':switch_tab(tab))
+tab3 = QPushButton('Orders Completed',clicked = lambda checked, tab='completed':switch_tab(tab))
 tab3.setStyleSheet("color:white;background-color:black;font-size:16px;font-weight:900;")
-tab4 = QPushButton('Pending',clicked = lambda checked,tab='pending':switch_tab(tab))
+tab4 = QPushButton('Orders Pending',clicked = lambda checked,tab='pending':switch_tab(tab))
 tab4.setStyleSheet("color:white;background-color:black;font-size:16px;font-weight:900;")
 tab3.setFixedWidth(663)
 tab4.setFixedWidth(663)
@@ -110,7 +110,16 @@ def Items(category):
     box = QGroupBox()
     card = QHBoxLayout()
     box.setLayout(card)
+    add = QPushButton('ADD NEW ITEM')
+    add.clicked.connect(add_item)
+    add.setFixedWidth(200)
+    add.setStyleSheet("font-size:20px;color:white;border:2px solid rgb(0,0,50);border-radius:5px;background-color:#a52a2a;")
+    card.addWidget(add)
+    items.addWidget(box)
 
+    box = QGroupBox()
+    card = QHBoxLayout()
+    box.setLayout(card)
     l1 = QLabel('ID')
     l1.setFixedWidth(30)
     l1.setFixedHeight(20)
@@ -188,8 +197,9 @@ def Items(category):
         card.addWidget(path)
 
         Cbox = QComboBox()
-        Cbox.addItems(['Available','Unavailable','Only 1 left','Limited'])
+        Cbox.addItems(['Available','Unavailable','Delete'])
         Cbox.setStyleSheet("font-size:14px;")
+        Cbox.setEnabled(False)
         Cbox.setFixedWidth(100)
         card.addWidget(Cbox)
 
@@ -199,7 +209,7 @@ def Items(category):
         edit.setFixedWidth(80)
         card.addWidget(edit)
 
-        save = QPushButton('SAVE',clicked = lambda checked,Sno=id_,entries=entries,cbox=Cbox:Save(Sno,entries,cbox))
+        save = QPushButton('SAVE',clicked = lambda checked,Sno=id_,entries=entries,cbox=Cbox,p_layout=items:Save(Sno,entries,cbox,p_layout))
         save.setStyleSheet("background-color:rgb(0,30,0); color:white;font-size:16px; border-radius:2px;")
         save.setFixedWidth(80)
         card.addWidget(save)
@@ -213,26 +223,98 @@ def Items(category):
     scroll_bar.setWidget(items_box)
     return scroll_bar
 
+def add_item():
+    global curr_cat
+    popup = QDialog()
+    popup.setWindowTitle(f'Add new item to {curr_cat}')
+    popup_layout = QVBoxLayout()
+    popup.setLayout(popup_layout)
+
+    name = QLineEdit()
+    name.setFixedSize(300,30)
+    name.setStyleSheet("font-size:16px;")
+    name.setPlaceholderText('Name')
+    popup_layout.addWidget(name)
+
+    price = QLineEdit()
+    price.setFixedSize(300,30)
+    price.setPlaceholderText('Price')
+    price.setStyleSheet("font-size:16px;")
+    popup_layout.addWidget(price)
+
+    path = QLineEdit()
+    path.setFixedSize(300,30)
+    path.setPlaceholderText('Img Path')
+    path.setStyleSheet("font-size:16px;")
+    popup_layout.addWidget(path)
+
+    availability = QComboBox()
+    availability.addItems(['Available','Unavailable'])
+    availability.setStyleSheet("font-size:16px;")
+    availability.setFixedSize(300,30)
+    popup_layout.addWidget(availability)
+
+    button = QPushButton('SAVE')
+    button.setStyleSheet("font-size:20px;color:white;background-color:rgb(0,50,0);")
+    button.setFixedSize(100,30)
+    button.clicked.connect(lambda checked,item=name,price=price,path=path,availability=availability.currentText():save_add_item(item,price,path,availability))
+
+    button_layout = QHBoxLayout()
+    button_layout.addStretch()
+    button_layout.addWidget(button)
+    button_layout.addStretch()
+    popup_layout.addLayout(button_layout)
+
+    popup_layout.setSpacing(15)
+    popup.exec()
+
+def save_add_item(item,price,path,availability):
+    name = item.text()
+    price = price.text()
+    path = path.text()
+    table = 'website_' + curr_cat
+    cursor = conn.cursor()
+    cursor.execute(f'''INSERT INTO {table} (item,price,img,availability)  VALUES (?, ?, ?, ?)''', (name,price,path,availability))
+    conn.commit()
+    cursor.close()
+    dialog = item.parent()
+    dialog.close()
+
 def Edit(id_,entries,cbox):
     for entry in entries:
         entry.setReadOnly(False)
     entries[1].setFocus()
+    cbox.setEnabled(True)
 
-def Save(id_,entries,cbox):
+def Save(id_,entries,cbox,p_layout):
     global curr_cat
-    for entry in entries:
-        entry.setReadOnly(True)
-    id_ = id_.text()
-    name = entries[0].text()
-    price = entries[1].text()
-    path = entries[2].text()
-    table = 'website_' + curr_cat
-    cursor = conn.cursor()
-    cursor.execute(f'''UPDATE {table}
-                       SET item = ?, price = ?, img = ?
-                       WHERE id = ?;''', (name, price, path, id_))
-    conn.commit()
-    cursor.close()
+    availability = cbox.currentText()
+    if(availability == 'Delete'):
+        table = 'website_' + curr_cat
+        cursor = conn.cursor()
+        cursor.execute(f'''DELETE from {table} WHERE id = ?;''', (id_.text()))
+        conn.commit()
+        cursor.close()
+        cbox.parent().hide()
+        p_layout.removeWidget(cbox.parent())
+    else:
+        for entry in entries:
+            entry.setReadOnly(True)
+        id_ = id_.text()
+        name = entries[0].text()
+        price = entries[1].text()
+        path = entries[2].text()
+        availability = cbox.currentText()
+        for entry in entries:
+            entry.setReadOnly(True)
+        cbox.setEnabled(False)
+        table = 'website_' + curr_cat
+        cursor = conn.cursor()
+        cursor.execute(f'''UPDATE {table}
+                        SET item = ?, price = ?, img = ?, availability = ?
+                        WHERE id = ?;''', (name, price, path, availability, id_))
+        conn.commit()
+        cursor.close()
 
 i = 0
 def switch_item(button):
@@ -262,6 +344,27 @@ def switch_item(button):
             x += 1
             y = 0
 
+def show_info(name,Cno,address):
+    popup = QDialog()
+    popup_layout = QVBoxLayout()
+    popup.setWindowTitle('Customer details')
+    popup.setLayout(popup_layout)
+    t = 'customer name : ' + name
+    label = QLabel(t)
+    label.setStyleSheet("font-size:16px;")
+    popup_layout.addWidget(label)
+
+    t = 'Contact No : ' + Cno
+    label = QLabel(t)
+    label.setStyleSheet("font-size:16px;")
+    popup_layout.addWidget(label)
+
+    t = 'Address : ' + address
+    label = QLabel(t)
+    label.setStyleSheet("font-size:16px;")
+    popup_layout.addWidget(label)
+    popup.exec()
+
 def Orders_placed():
     cards = QGroupBox()
     cards.setStyleSheet("background-color:white;")
@@ -284,11 +387,23 @@ def Orders_placed():
         shadow.setColor(QColor(0, 0, 0, 160))
         card.setGraphicsEffect(shadow)
 
-        label = QLabel(order[3].split(' ')[1])
+        title = QGroupBox()
+        title_layout = QHBoxLayout()
+        title.setLayout(title_layout)
+
+        label = QLabel(str(order[0]))
+        label.setStyleSheet("font-size:20px;border:2px solid red;border-radius:50%;")
+        label.setFixedSize(30,20)
+        title_layout.addWidget(label)
+
+        t = 'Order placed at : ' + str(order[3].split(' ')[1])
+        label = QLabel(t)
         label.setStyleSheet("font-size:18px;color:red;")
         label.setFixedHeight(20)
-        label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        layout.addWidget(label)
+        label.setAlignment(Qt.AlignRight | Qt.AlignTop)
+        title_layout.addWidget(label)
+
+        layout.addWidget(title)
         layout.addSpacerItem(QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum))
 
         items = QGroupBox()
@@ -322,6 +437,7 @@ def Orders_placed():
         layout.addWidget(user)
         user.setFixedHeight(25)
         completed.setFixedHeight(25)
+        user.clicked.connect(lambda checked,name=order[1],Cno=order[4],address=order[5]:show_info(name,Cno,address))
         user.setStyleSheet("border:2px solid white;font-size:18px;color:white;background-color:rgb(0,0,50);")
         completed.setStyleSheet("border:2px solid white;font-size:18px;color:white;background-color:rgb(0,50,0);")
         layout.addWidget(completed)
@@ -344,7 +460,6 @@ def switch_tab(tab):
         window_layout.removeWidget(pending_orders)
         window_layout.addWidget(comp_orders,3,0,2,6)
     else:
-
         window_layout.removeWidget(comp_orders)
         comp_orders.hide()
         window_layout.addWidget(pending_orders,3,0,2,6)
