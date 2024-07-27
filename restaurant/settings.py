@@ -50,15 +50,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'restaurant.wsgi.application'
-'''ASGI_APPLICATION = 'restaurant.asgi.application'
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
-}'''
+
 
 DATABASES = {
     'default': {
@@ -66,21 +58,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-'''DATABASES = {
-    'default':{
-        'ENGINE':'mssql',
-        'NAME':'restaurant',
-        'HOST':'localhost',
-        'PORT':'',
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        },
-    }
-}'''
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
