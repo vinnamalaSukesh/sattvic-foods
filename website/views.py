@@ -13,10 +13,11 @@ addresss = Customer.objects.all().values('address')
 addresss = [address['address'] for address in addresss]
 
 def index(request):
-    name = request.session['name']
-    if(name):
-        request.session.flush()
     return render(request,'index.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
 
 logined = []
 def login(request):
@@ -65,6 +66,7 @@ def home(request):
         return render(request,'home.html',{'name':name})
     else:
         return redirect('/login/')
+
 def menu(request):
     name = request.session['name']
     if(name):

@@ -192,3 +192,23 @@ else
 { console.log('flexd')
 document.getElementById('divcart').style.display = 'none' }
 }
+
+const ws = new WebSocket("ws://localhost:5000/ws/Order/");
+
+ws.onopen = function (e) {
+  console.log("WebSocket connection established successfully.");
+};
+
+ws.onmessage = function (e) {
+  console.log("Message received:", e.data);
+  const data = JSON.parse(e.data);
+  console.log("Parsed message:", data);
+};
+
+ws.onclose = function (e) {
+  console.error("WebSocket closed unexpectedly.");
+};
+
+ws.onerror = function (error) {
+  console.error("WebSocket error:", error);
+};

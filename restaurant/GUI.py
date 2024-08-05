@@ -5,46 +5,6 @@ import sqlite3
 conn = sqlite3.connect('./db.sqlite3')
 
 cursor = conn.cursor()
-cursor.execute('select * from website_appetizers')
-Appetizers = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_soups_salads')
-Soups_and_salads = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_rice_items')
-Rice_items = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_breads_rotis')
-Breads_rotis = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_special_curries')
-Special_curries = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_side_dishes')
-Side_dishes = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_deserts')
-Deserts = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
-cursor.execute('select * from website_drinks')
-Drinks = cursor.fetchall()
-cursor.close()
-
-cursor = conn.cursor()
 cursor.execute('select * from website_orders_placed')
 orders = cursor.fetchall()
 cursor.close()
@@ -105,6 +65,11 @@ def change_tab(tab):
         separator.show()
 
 def Items(category):
+    cursor = conn.cursor()
+    cursor.execute(f'select * from website_{category}')
+    category = cursor.fetchall()
+    cursor.close()
+
     items_box = QGroupBox()
     items = QVBoxLayout()
     box = QGroupBox()
@@ -268,6 +233,8 @@ def add_item():
     popup_layout.setSpacing(15)
     popup.exec()
 
+    categories
+
 def save_add_item(item,price,path,availability):
     name = item.text()
     price = price.text()
@@ -279,6 +246,12 @@ def save_add_item(item,price,path,availability):
     cursor.close()
     dialog = item.parent()
     dialog.close()
+
+    window_layout.removeWidget(categories[curr_cat])
+    categories[curr_cat].hide()
+    categories[curr_cat] = Items(curr_cat)
+    window_layout.addWidget(categories[curr_cat],2,2,3,4)
+    categories[curr_cat].show()
 
 def Edit(id_,entries,cbox):
     for entry in entries:
@@ -292,7 +265,7 @@ def Save(id_,entries,cbox,p_layout):
     if(availability == 'Delete'):
         table = 'website_' + curr_cat
         cursor = conn.cursor()
-        cursor.execute(f'''DELETE from {table} WHERE id = ?;''', (id_.text()))
+        cursor.execute(f'''DELETE from {table} WHERE id = ?;''', (id_.text(),))
         conn.commit()
         cursor.close()
         cbox.parent().hide()
@@ -499,14 +472,14 @@ side_dishesb = menu_button('Side_dishes')
 desertsb = menu_button('Deserts')
 drinksb = menu_button('Drinks')
 
-appetizers = Items(Appetizers)
-soups_and_salads = Items(Soups_and_salads)
-rice_items = Items(Rice_items)
-breads_rotis = Items(Breads_rotis)
-special_curries = Items(Special_curries)
-side_dishes = Items(Side_dishes)
-deserts = Items(Deserts)
-drinks = Items(Drinks)
+appetizers = Items('appetizers')
+soups_and_salads = Items('soups_salads')
+rice_items = Items('rice_items')
+breads_rotis = Items('breads_rotis')
+special_curries = Items('special_curries')
+side_dishes = Items('side_dishes')
+deserts = Items('deserts')
+drinks = Items('drinks')
 
 categories = {'appetizers':appetizers,'soups_and_salads':soups_and_salads,'rice_items':rice_items,
                   'breads_rotis':breads_rotis,'special_curries':special_curries,
