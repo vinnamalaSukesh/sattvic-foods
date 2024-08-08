@@ -193,22 +193,36 @@ else
 document.getElementById('divcart').style.display = 'none' }
 }
 
-const ws = new WebSocket("ws://localhost:5000/ws/Order/");
-
-ws.onopen = function (e) {
-  console.log("WebSocket connection established successfully.");
+const socket = new WebSocket("ws://" + window.location.host + "/ws/Order/");
+socket.onopen = function (e) {
+  console.log("Connection established!");
+};
+socket.onmessage = function (event) {
+  const data = JSON.parse(event.data);
+  handleIncomingData(data);
 };
 
-ws.onmessage = function (e) {
-  console.log("Message received:", e.data);
-  const data = JSON.parse(e.data);
-  console.log("Parsed message:", data);
+socket.onclose = function (event) {
+  if (event.wasClean) {
+    console.log(
+      `Connection closed cleanly, code=${event.code} reason=${event.reason}`
+    );
+  } else {
+    console.error("Connection died");
+  }
 };
 
-ws.onclose = function (e) {
-  console.error("WebSocket closed unexpectedly.");
+socket.onerror = function (error) {
+  console.error(`WebSocket error: ${error.message}`);
 };
 
-ws.onerror = function (error) {
-  console.error("WebSocket error:", error);
-};
+function handleIncomingData(data) {
+    console.log(data); // Print the entire message
+    console.log(data.message); // Print the message payload
+    console.log(data.message.type); // Print the message type
+    console.log(data.message.name); // Print the name
+    console.log(data.message.price); // Print the price
+    console.log(data.message.path); // Print the path
+    console.log(data.message.availability);
+  
+}

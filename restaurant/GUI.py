@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sqlite3
-conn = sqlite3.connect('./db.sqlite3')
+conn = sqlite3.connect('../db.sqlite3')
 
 cursor = conn.cursor()
 cursor.execute('select * from website_orders_placed')
@@ -252,6 +252,8 @@ def save_add_item(item,price,path,availability):
     categories[curr_cat] = Items(curr_cat)
     window_layout.addWidget(categories[curr_cat],2,2,3,4)
     categories[curr_cat].show()
+    data = {'type' : 'new item','name' : name,'price' : price,'path' : path, 'availability' : availability}
+    client.send_message()
 
 def Edit(id_,entries,cbox):
     for entry in entries:
@@ -288,7 +290,9 @@ def Save(id_,entries,cbox,p_layout):
                         WHERE id = ?;''', (name, price, path, availability, id_))
         conn.commit()
         cursor.close()
-
+        global client
+        client.send_message({'message':{'type':'menu update','name':name,'price':price,'path':path,'availability':availability}})
+        print('data sent')
 i = 0
 def switch_item(button):
     global layout,i,cards_layout
@@ -515,4 +519,45 @@ window_layout.addWidget(appetizers, 2, 2, 3, 4)
 
 window.setLayout(window_layout)
 window.show()
+
+from PyQt5.QtCore import QUrl, QObject, pyqtSlot
+from PyQt5.QtWebSockets import QWebSocket
+from PyQt5.QtWidgets import QApplication
+import sys
+import json
+class WebSocketClient(QObject):
+    def __init__(self):
+        super().__init__()
+        self.client = QWebSocket()
+        self.client.error.connect(self.on_error)
+        self.client.connected.connect(self.on_connected)
+        self.client.disconnected.connect(self.on_disconnected)
+        self.client.textMessageReceived.connect(self.on_message_received)
+    def connect(self, url):
+        self.client.open(QUrl(url))
+
+    @pyqtSlot()
+    def on_connected(self):
+        print("WebSocket connected")
+
+    @pyqtSlot()
+    def on_disconnected(self):
+        print("WebSocket disconnected")
+
+    @pyqtSlot(str)
+    def on_message_received(self, message):
+        print(f"Message received: {message}")
+
+    def send_message(self, message):
+        print(message)
+        self.client.sendTextMessage(json.dumps({'message': message}))
+
+    @pyqtSlot('QAbstractSocket::SocketError')
+    def on_error(self, error):
+        print(f"WebSocket error: {error}")
+        
+if __name__ == "__main__":
+    client = WebSocketClient()
+    client.connect("ws://localhost:5000/ws/Order/")
+
 app.exec()
