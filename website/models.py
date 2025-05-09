@@ -52,6 +52,7 @@ class Orders_placed(models.Model):
     time = models.DateTimeField()
     contactNo = models.CharField(max_length=13,default='')
     address = models.CharField(max_length=200,default='')
+    status = models.CharField(max_length=20,default='pending')
     def save(self, *args, **kwargs):
         if not self.time:
             now = datetime.now()

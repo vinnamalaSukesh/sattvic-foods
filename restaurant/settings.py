@@ -8,6 +8,10 @@ SECRET_KEY = 'django-insecure-s06ix+*x%ppy#-g+5--wvsdzof4s!wdvkai-3f7#1%7iti4lta
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Correct
+]
+CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
     'daphne',
@@ -19,17 +23,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'website',
-    'fontawesomefree'
+    'fontawesomefree',
+    'corsheaders',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'restaurant.urls'
@@ -94,7 +101,11 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'simpleReact/dist',
+]
 STATIC_ROOT = BASE_DIR / 'assets'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

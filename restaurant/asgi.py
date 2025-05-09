@@ -10,6 +10,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'restaurant.settings')
 django_asgi_app = get_asgi_application()
 
 websocket_urlpatterns = [
+    re_path(r"^ws/Menu/$", consumer.Menu.as_asgi()),
     re_path(r"^ws/Order/$", consumer.Order.as_asgi()),
 ]
 

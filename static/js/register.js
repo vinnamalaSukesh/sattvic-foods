@@ -1,5 +1,4 @@
 let emails = window.sessionData.emails
-console.log(emails)
 
 function validate() {
   let email = document.getElementById("email").value.trim().toLowerCase();

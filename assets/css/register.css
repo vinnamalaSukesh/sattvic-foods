@@ -4,7 +4,7 @@ overflow: hidden; display: flex;align-items: center;justify-content: center;}
 *{margin: 0px; padding: 0px;}
 
 form{display: flex; flex-direction: column;row-gap: 10px;padding: 20px;position: absolute;
-    align-items: center;border-radius: 10px;justify-content: center; top: 100px;height: 300px;
+    align-items: center;border-radius: 10px;justify-content: center; top: 100px;height: 400px;
 box-shadow: 0px 0px 25px black;}
 
 form input{padding: 8px; border-radius: 5px;font-size: 20px; border:1px solid black;
@@ -13,6 +13,7 @@ form button{padding: 10px; border-radius: 5px;font-size: 20px; border:none;color
     font-weight: bold;background-color: rgb(1, 56, 1);}
 form p{font-size: 40px; color: rgb(4, 4, 115);}
 
+form textarea{font-size: 16px;border: 1px solid black; width: 320px; padding: 8px;border-radius: 5px;}
 #title{font-size: 50px; position: absolute; top: 29px; font: 900; font-family: Tahoma, sans-serif;
 color: rgb(4, 4, 82); width: 32vw; text-align: center;}
 
@@ -40,6 +41,7 @@ li {list-style-type: none;}
     #emaili{font-size: 20px;}
     #passi{top: 235px;}
     #submit{padding: 3px;}
+    #address{width: 280px;}
 }
 
 @media screen and (max-width:350px) {
@@ -51,4 +53,5 @@ li {list-style-type: none;}
     #passi i {font-size: 20px;top: 255px;}
     #emaili {font-size: 20px;top: 135px;right: 30px;}
     #passi {top: 210px;right: 20px;}
+    #address{width: 220px;font-size: 13px;}
 }

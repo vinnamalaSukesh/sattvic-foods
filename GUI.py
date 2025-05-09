@@ -2,12 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sqlite3
-conn = sqlite3.connect('../db.sqlite3')
-
-cursor = conn.cursor()
-cursor.execute('select * from website_orders_placed')
-orders = cursor.fetchall()
-cursor.close()
+conn = sqlite3.connect('./db.sqlite3')
 
 app = QApplication([])
 window = QWidget()
@@ -162,7 +157,10 @@ def Items(category):
         card.addWidget(path)
 
         Cbox = QComboBox()
-        Cbox.addItems(['Available','Unavailable','Delete'])
+        Cbox.addItem(i[4])
+        L = ['Available','Unavailable','Delete']
+        L.remove(i[4])
+        Cbox.addItems(L)
         Cbox.setStyleSheet("font-size:14px;")
         Cbox.setEnabled(False)
         Cbox.setFixedWidth(100)
@@ -252,26 +250,35 @@ def save_add_item(item,price,path,availability):
     categories[curr_cat] = Items(curr_cat)
     window_layout.addWidget(categories[curr_cat],2,2,3,4)
     categories[curr_cat].show()
-    data = {'type' : 'new item','name' : name,'price' : price,'path' : path, 'availability' : availability}
-    client.send_message()
-
-def Edit(id_,entries,cbox):
-    for entry in entries:
-        entry.setReadOnly(False)
-    entries[1].setFocus()
-    cbox.setEnabled(True)
+    cursor = conn.cursor()
+    table = 'website_' + curr_cat
+    cursor.execute(f'''SELECT * FROM {table} WHERE id = (SELECT MAX(id) FROM {table});''')
+    item = cursor.fetchall()
+    cursor.close()
+    client.send_message({'message' :{'type' : 'new item','category':curr_cat,'item':item}})
 
 def Save(id_,entries,cbox,p_layout):
     global curr_cat
     availability = cbox.currentText()
     if(availability == 'Delete'):
-        table = 'website_' + curr_cat
+        name = entries[0].text()
+        price = entries[1].text()
+        path = entries[2].text()
+        availability = cbox.currentText()
+        print(availability)
         cursor = conn.cursor()
-        cursor.execute(f'''DELETE from {table} WHERE id = ?;''', (id_.text(),))
+        table = 'website_' + curr_cat
+        cursor.execute(f'''SELECT * FROM {table} WHERE id = {id_.text()}''')
+        item = cursor.fetchall()
+        cursor.close()
+
+        cursor = conn.cursor()
+        cursor.execute(f'''DELETE from {table} WHERE id = {id_.text()}''')
         conn.commit()
         cursor.close()
         cbox.parent().hide()
         p_layout.removeWidget(cbox.parent())
+        client.send_message({'message':{'type':'delete','category':curr_cat,'item':item}})
     else:
         for entry in entries:
             entry.setReadOnly(True)
@@ -290,36 +297,38 @@ def Save(id_,entries,cbox,p_layout):
                         WHERE id = ?;''', (name, price, path, availability, id_))
         conn.commit()
         cursor.close()
-        global client
-        client.send_message({'message':{'type':'menu update','name':name,'price':price,'path':path,'availability':availability}})
-        print('data sent')
+        cursor = conn.cursor()
+        table = 'website_' + curr_cat
+        cursor.execute(f'''SELECT * FROM {table} WHERE id = {id_}''')
+        item = cursor.fetchall()
+        cursor.close()
+        client.send_message({'message':{'type':'update','category':curr_cat,'item':item}})
+
+def Edit(id_,entries,cbox):
+    for entry in entries:
+        entry.setReadOnly(False)
+    entries[1].setFocus()
+    cbox.setEnabled(True)
+
 i = 0
-def switch_item(button):
-    global layout,i,cards_layout
-    parent = button.parent()
-    window_layout.removeWidget(parent)
-    x = i // 4
-    y = i % 4
-    layout.addWidget(parent,x,y)
-    i += 1
-    widgets = []
-    for row in range(cards_layout.rowCount()):
-        for col in range(cards_layout.columnCount()):
-            item = cards_layout.itemAtPosition(row,col)
-            if(item is not None):
-                item = item.widget()
-                widgets.append(item)
-                cards_layout.removeWidget(item)
-                item.hide()
-    x = 0
-    y = 0
-    for k in range(len(widgets)):
-        cards_layout.addWidget(widgets[k],x,y)
-        widgets[k].show()
-        y += 1
-        if(y == 4):
-            x += 1
-            y = 0
+def switch_item(id_):
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE website_orders_placed
+        SET status = ?
+        WHERE id = ?
+    ''', ('completed', id_))
+    global pending_orders,comp_orders
+    window_layout.removeWidget(pending_orders)
+    pending_orders.hide()
+    window_layout.removeWidget(comp_orders)
+    comp_orders.hide()
+    pending_orders,comp_orders = Orders_placed()
+    window_layout.addWidget(pending_orders,3,0,2,6)
+    pending_orders.show()
+
+    conn.commit()
+    cursor.close()
 
 def show_info(name,Cno,address):
     popup = QDialog()
@@ -343,94 +352,172 @@ def show_info(name,Cno,address):
     popup.exec()
 
 def Orders_placed():
-    cards = QGroupBox()
-    cards.setStyleSheet("background-color:white;")
-    global cards_layout
-    cards_layout = QGridLayout()
-    cards.setLayout(cards_layout)
-    cards.setFixedWidth(1300)
-    x = 0
-    y = 0
+    cursor = conn.cursor()
+    cursor.execute('select * from website_orders_placed')
+    orders = cursor.fetchall()
+    cursor.close()
+
+    pending_orders = QGroupBox()
+    global pending_layout,pending
+    pending_layout = QGridLayout()
+    pending_orders.setLayout(pending_layout)
+
+    comp_orders = QGroupBox()
+    comp_layout = QGridLayout()
+    comp_orders.setLayout(comp_layout)
+
+    pending = 0
+    complete = 0
     for order in orders:
-        card = QGroupBox()
-        layout = QVBoxLayout()
-        card.setLayout(layout)
-        card.setStyleSheet("background-color:white;")
-        card.setFixedSize(295,350)
+        if(order[6] == 'pending'):
+            box = Pending_orders(order)
+            y = pending % 4
+            x = pending // 4
+            pending_layout.addWidget(box,x,y)
+            pending += 1
+        else:
+            box = Comp_orders(order)
+            y = complete % 4
+            x = complete // 4
+            comp_layout.addWidget(box,x,y)
+            complete += 1
+    pending_scroll = QScrollArea()
+    pending_scroll.setWidgetResizable(True)
+    pending_scroll.setWidget(pending_orders)
+    comp_scroll = QScrollArea()
+    comp_scroll.setWidgetResizable(True)
+    comp_scroll.setWidget(comp_orders)
+    return pending_scroll,comp_scroll
 
-        shadow = QGraphicsDropShadowEffect()
-        shadow.setBlurRadius(15)
-        shadow.setOffset(0, 0)
-        shadow.setColor(QColor(0, 0, 0, 160))
-        card.setGraphicsEffect(shadow)
+def Pending_orders(order):
+    box = QGroupBox()
+    box_layout = QVBoxLayout()
+    box.setLayout(box_layout)
+    shadow = QGraphicsDropShadowEffect()
+    shadow.setBlurRadius(15)
+    shadow.setOffset(0, 0)
+    shadow.setColor(QColor(0, 0, 0, 160))
+    box.setGraphicsEffect(shadow)
+    box.setFixedSize(295,350)
 
-        title = QGroupBox()
-        title_layout = QHBoxLayout()
-        title.setLayout(title_layout)
+    title_layout = QHBoxLayout()
+    id_ = QLabel(str(order[0]))
+    id_.setStyleSheet('font-size:20px;border:2px solid red;border-radius:50%;')
+    id_.setFixedSize(30,20)
+    title_layout.addWidget(id_)
+    t = 'Order placed at : ' + str(order[3].split(' ')[1])
+    date = QLabel(t)
+    date.setStyleSheet("font-size:18px;color:red;border:0px;")
+    date.setFixedHeight(20)
+    date.setAlignment(Qt.AlignRight | Qt.AlignTop)
+    title_layout.addWidget(date)
 
-        label = QLabel(str(order[0]))
-        label.setStyleSheet("font-size:20px;border:2px solid red;border-radius:50%;")
-        label.setFixedSize(30,20)
-        title_layout.addWidget(label)
+    box_layout.addLayout(title_layout)
+    items = QGroupBox()
+    items_layout = QVBoxLayout()
+    items.setLayout(items_layout)
+    scroll = QScrollArea()
+    scroll.setWidgetResizable(True)
+    scroll.setFixedHeight(200)
+    scroll.setWidget(items)
 
-        t = 'Order placed at : ' + str(order[3].split(' ')[1])
+    price = 0
+    for i in order[2].split(';'):
+        item = i.split(',')
+        t = item[0] + '  (' + item[2] + ')'
         label = QLabel(t)
-        label.setStyleSheet("font-size:18px;color:red;")
-        label.setFixedHeight(20)
-        label.setAlignment(Qt.AlignRight | Qt.AlignTop)
-        title_layout.addWidget(label)
+        label.setStyleSheet("font-size:18px;")
+        label.setFixedHeight(30)
+        price += int(item[1])
+        items_layout.addWidget(label)
+    box_layout.addWidget(scroll)
 
-        layout.addWidget(title)
-        layout.addSpacerItem(QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Minimum))
+    t = 'Price : ' + str(price)
+    label = QLabel(t)
+    label.setFixedHeight(20)
+    label.setStyleSheet('font-size:18px;color:red;')
+    label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+    box_layout.addWidget(label)
 
-        items = QGroupBox()
-        items_layout = QVBoxLayout()
-        items.setLayout(items_layout)
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setFixedHeight(200)
-        scroll.setWidget(items)
+    user = QPushButton('User details')
+    user.setStyleSheet("border:1px solid white;font-size:18px;color:white;background-color:rgb(0,0,50);")
+    user.setFixedHeight(25)
+    user.clicked.connect(lambda checked,name=order[1],Cno=order[4],address=order[5]:show_info(name,Cno,address))
+    box_layout.addWidget(user)
 
-        price = 0
-        for i in order[2].split(';'):
-            item = i.split(',')
-            t = item[0] + '  (' + item[2] + ')'
-            label = QLabel(t)
-            label.setStyleSheet("font-size:18px;")
-            label.setFixedHeight(30)
-            price += int(item[1])
-            items_layout.addWidget(label)
+    comp = QPushButton('Completed')
+    comp.clicked.connect(lambda _,id_=order[0]: switch_item(id_))
 
-        layout.addWidget(scroll)
-        t = 'Price : ' + str(price)
+    comp.setStyleSheet("border:1px solid white;font-size:18px;color:white;background-color:rgb(0,50,0);")
+    comp.setFixedHeight(25)
+    box_layout.addWidget(comp)
+
+    return box
+
+def Comp_orders(order):
+    box = QGroupBox()
+    box_layout = QVBoxLayout()
+    box.setLayout(box_layout)
+    box.setFixedSize(295,350)
+    shadow = QGraphicsDropShadowEffect()
+    shadow.setBlurRadius(15)
+    shadow.setOffset(0, 0)
+    shadow.setColor(QColor(0, 0, 0, 160))
+    box.setGraphicsEffect(shadow)
+
+    title_layout = QHBoxLayout()
+    id_ = QLabel(str(order[0]))
+    id_.setStyleSheet('font-size:20px;border:2px solid red;border-radius:50%;')
+    id_.setFixedSize(30,20)
+    title_layout.addWidget(id_)
+    t = 'Order placed at : ' + str(order[3].split(' ')[1])
+    date = QLabel(t)
+    date.setStyleSheet("font-size:18px;color:red;border:0px;")
+    date.setFixedHeight(20)
+    date.setAlignment(Qt.AlignRight | Qt.AlignTop)
+    title_layout.addWidget(date)
+
+    box_layout.addLayout(title_layout)
+    items = QGroupBox()
+    items_layout = QVBoxLayout()
+    items.setLayout(items_layout)
+    items.setStyleSheet('border:0px;')
+    scroll = QScrollArea()
+    scroll.setWidgetResizable(True)
+    scroll.setFixedHeight(200)
+    scroll.setWidget(items)
+    scroll.setStyleSheet('border:0px;')
+
+    price = 0
+    for i in order[2].split(';'):
+        item = i.split(',')
+        t = item[0] + '  (' + item[2] + ')'
         label = QLabel(t)
-        label.setFixedHeight(20)
-        label.setStyleSheet("font-size:18px;color:red;")
-        label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        layout.addWidget(label)
-        user = QPushButton('User details')
-        completed = QPushButton('Completed')
-        completed.clicked.connect(lambda _, b=completed: switch_item(b))
-        layout.addWidget(user)
-        user.setFixedHeight(25)
-        completed.setFixedHeight(25)
-        user.clicked.connect(lambda checked,name=order[1],Cno=order[4],address=order[5]:show_info(name,Cno,address))
-        user.setStyleSheet("border:2px solid white;font-size:18px;color:white;background-color:rgb(0,0,50);")
-        completed.setStyleSheet("border:2px solid white;font-size:18px;color:white;background-color:rgb(0,50,0);")
-        layout.addWidget(completed)
+        label.setStyleSheet("font-size:18px;")
+        label.setFixedHeight(30)
+        label.setStyleSheet('border:0px;;font-size:20px;')
+        price += int(item[1])
+        items_layout.addWidget(label)
+    box_layout.addWidget(scroll)
 
-        cards_layout.addWidget(card,x,y)
-        y += 1
-        if(y == 4):
-            x += 1
-            y = 0
-    scroll_bar = QScrollArea()
-    scroll_bar.setWidgetResizable(True)
-    scroll_bar.setWidget(cards)
-    return scroll_bar
-pending_orders = Orders_placed()
+    t = 'Price : ' + str(price)
+    label = QLabel(t)
+    label.setFixedHeight(20)
+    label.setStyleSheet('font-size:18px;color:red;border:0px;')
+    label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+    box_layout.addWidget(label)
+
+    user = QPushButton('User details')
+    user.setStyleSheet("border:1px solid white;font-size:18px;color:white;background-color:rgb(0,0,50);")
+    user.setFixedHeight(30)
+    user.clicked.connect(lambda checked,name=order[1],Cno=order[4],address=order[5]:show_info(name,Cno,address))
+    box_layout.addWidget(user)
+
+    return box
+pending_orders,comp_orders= Orders_placed()
 
 def switch_tab(tab):
+    global pending_orders,comp_orders
     if(tab == 'completed'):
         pending_orders.hide()
         comp_orders.show()
@@ -441,14 +528,6 @@ def switch_tab(tab):
         comp_orders.hide()
         window_layout.addWidget(pending_orders,3,0,2,6)
         pending_orders.show()
-
-def completed_orders():
-    com_order = QGroupBox()
-    global layout
-    layout = QGridLayout()
-    com_order.setLayout(layout)
-    return com_order
-comp_orders = completed_orders()
 
 global curr_cat
 curr_cat = 'appetizers'
@@ -520,12 +599,22 @@ window_layout.addWidget(appetizers, 2, 2, 3, 4)
 window.setLayout(window_layout)
 window.show()
 
+def Order_update(order):
+    order = order[0]
+    global pending_layout,pending
+    box = Pending_orders(order)
+    y = pending % 4
+    x = pending // 4
+    pending += 1
+    pending_layout.addWidget(box,x,y)
+
 from PyQt5.QtCore import QUrl, QObject, pyqtSlot
 from PyQt5.QtWebSockets import QWebSocket
 from PyQt5.QtWidgets import QApplication
 import sys
 import json
-class WebSocketClient(QObject):
+
+class Menu(QObject):
     def __init__(self):
         super().__init__()
         self.client = QWebSocket()
@@ -538,26 +627,68 @@ class WebSocketClient(QObject):
 
     @pyqtSlot()
     def on_connected(self):
-        print("WebSocket connected")
+        print("WebSocket connected to Menu")
 
     @pyqtSlot()
     def on_disconnected(self):
-        print("WebSocket disconnected")
+        print("WebSocket disconnected to Menu")
 
     @pyqtSlot(str)
     def on_message_received(self, message):
-        print(f"Message received: {message}")
+        pass
 
     def send_message(self, message):
-        print(message)
         self.client.sendTextMessage(json.dumps({'message': message}))
 
     @pyqtSlot('QAbstractSocket::SocketError')
     def on_error(self, error):
         print(f"WebSocket error: {error}")
-        
-if __name__ == "__main__":
-    client = WebSocketClient()
-    client.connect("ws://localhost:5000/ws/Order/")
 
+class Order(QObject):
+    def __init__(self):
+        super().__init__()
+        self.client = QWebSocket()
+        self.client.error.connect(self.on_error)
+        self.client.connected.connect(self.on_connected)
+        self.client.disconnected.connect(self.on_disconnected)
+        self.client.textMessageReceived.connect(self.on_message_received)
+
+    def connect(self, url):
+        self.client.open(QUrl(url))
+
+    @pyqtSlot()
+    def on_connected(self):
+        print("WebSocket connected to order")
+
+    @pyqtSlot()
+    def on_disconnected(self):
+        print("WebSocket disconnected to order")
+
+    @pyqtSlot(str)
+    def on_message_received(self, message):
+        message = json.loads(message)
+        if(message['message'] == 'New order'):
+            cursor = conn.cursor()
+            cursor.execute('''SELECT * FROM website_orders_placed
+                WHERE id = (SELECT MAX(id) FROM website_orders_placed);''')
+            order = cursor.fetchall()
+            cursor.close()
+            Order_update(order)
+
+    def send_message(self, message):
+        if self.client.state() == QWebSocket.ConnectedState:
+            self.client.sendTextMessage(json.dumps({'message': 'New order'}))
+        else:
+            print("WebSocket is not connected")
+
+    @pyqtSlot('QAbstractSocket::SocketError')
+    def on_error(self, error):
+        print(f"WebSocket error: {error}")
+
+if __name__ == "__main__":
+    client = Menu()
+    client.connect("ws://localhost:5000/ws/Menu/")
+
+    client1 = Order()
+    client1.connect("ws://localhost:5000/ws/Order/")
 app.exec()
